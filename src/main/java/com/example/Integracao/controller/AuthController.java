@@ -21,47 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AuthController {
 
- private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
- @Autowired
- public AuthController(UsuarioRepository usuarioRepository) {
- this.usuarioRepository = usuarioRepository;
- }
+    @Autowired
+    public AuthController(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
     @GetMapping
     public List<Usuario> listarUsuario() {
         return usuarioRepository.findAll();
     }
-@PostMapping("/login")
- public Boolean login(@RequestBody Usuario usuario) {
-     List<Usuario> usuarios = usuarioRepository.findAll();
-    for(Usuario u :  usuarios){ //para cada usuario U contido em usuarios 
-     if(u.getUsername().equals(usuario.getUsername()) && 
-        u.getPassword().equals(usuario.getPassword())){
-         return true;
-     }
- }
- return false;
- }
-      @DeleteMapping("/{cod}")
-    public ResponseEntity<String> deletarUsuario(@PathVariable Long cod) {
-        if (usuarioRepository.existsById(cod)) {
-            usuarioRepository.deleteById(cod);
-            return ResponseEntity.ok("Usuario deletado com sucesso.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-        @PutMapping("/{cod}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(name = "cod") Long cod, @RequestBody Usuario usuarioAtualizado) {
-        if (usuarioRepository.existsById(cod)) {
-            Usuario usuario = usuarioRepository.findById(cod).get();
-            usuario.setUsername(usuarioAtualizado.getUsername());
-            usuario.setPassword(usuarioAtualizado.getPassword());
 
-            Usuario usuarioAtualizadoBD = usuarioRepository.save(usuario);
-            return ResponseEntity.ok(usuarioAtualizadoBD);
-        } else {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/login")
+    public Boolean login(@RequestBody Usuario usuario) {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        for (Usuario u : usuarios) { //para cada usuario U contido em usuarios 
+            if (u.getUsername().equals(usuario.getUsername())
+                    && u.getPassword().equals(usuario.getPassword())) {
+                return true;
+            }
         }
+        return false;
+    }
+    @PostMapping("/cadastro")
+    public Usuario criarUsuario(@RequestBody Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 }
