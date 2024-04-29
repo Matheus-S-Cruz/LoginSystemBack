@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:5173")//Endereço do front
 @RestController
 @RequestMapping("/api")
-public class AuthController {
+public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
 
     @Autowired
-    public AuthController(UsuarioRepository usuarioRepository) {
+    public UsuarioController(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
